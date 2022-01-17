@@ -17,7 +17,8 @@ public class CameraController : MonoBehaviour
 
     void LateUpdate()
     {
+        transform.LookAt(new Vector3(pota.position.x, transform.position.y, pota.position.z));
         transform.position = new Vector3(player.position.x + offset.x, offset.y, player.position.z + offset.z);
-        transform.DODynamicLookAt(new Vector3((pota.position.x + player.position.x)/2, transform.position.y, (pota.position.z + player.position.z) / 2), 0.5f);
+        //transform.DODynamicLookAt(new Vector3((pota.position.x + player.position.x)/2, transform.position.y, (pota.position.z + player.position.z) / 2), 0.5f);
     }
 }

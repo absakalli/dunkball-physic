@@ -7,9 +7,10 @@ public class BallController : MonoBehaviour
     private Rigidbody rb;
 
     public Vector3 firstPos, lastPos, movePos;
-    public bool isSafe, isGrounded;
+    public bool isSafe, isGrounded, movingUp;
     public float time, throwSpeed, directSpeed;
-    public float moveSpeed;
+    public float moveSpeed, upSpeed;
+    public ForceMode force;
 
     private void Start()
     {
@@ -20,6 +21,20 @@ public class BallController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        Vector3 lookattarget = pota.position;
+        lookattarget.y = 0;
+        transform.LookAt(lookattarget);
+        if(movingUp && transform.position.y < 0.51f)
+        {
+            float diff = 0.51f - transform.position.y;
+            //float speedDiff=rb.velocity.magnitude
+            rb.AddForce(Vector3.up * upSpeed * diff, force);
+        }
+        if (transform.position.y>= 0.51f)
+        {
+            movingUp = false;
+        }
+
         if (Input.GetMouseButtonDown(0))
         {
             firstPos = Input.mousePosition;
@@ -27,10 +42,19 @@ public class BallController : MonoBehaviour
 
         if (Input.GetMouseButton(0))
         {
+            if (firstPos == Vector3.zero)
+            {
+                firstPos = Input.mousePosition;
+            }
             time += Time.deltaTime;
             lastPos = Input.mousePosition;
             movePos = lastPos - firstPos;
-            rb.AddForce(new Vector3(Mathf.Clamp(movePos.x, -1, 1), 0, Mathf.Clamp(movePos.y, -1, 1)) * moveSpeed);
+            movePos.Normalize();
+            Vector3 targetVector = transform.right * movePos.x + transform.forward * movePos.y;
+            targetVector.y = 0;
+            Debug.Log(targetVector);
+            rb.AddForce(targetVector * moveSpeed);
+            //rb.AddForce(new Vector3(movePos.x, 0, movePos.y) * moveSpeed);
         }
 
         else if (Input.GetMouseButtonUp(0) && movePos.y > 0 && time < 0.6f)
@@ -46,10 +70,10 @@ public class BallController : MonoBehaviour
 
                 else
                 {
-                    Vector3 direction = (pota.transform.position - transform.position);
-                    directSpeed = direction.magnitude;
-                    Debug.Log("DIRECTION : " + direction + " SPEED : " + directSpeed);
-                    rb.AddForce(direction * directSpeed, ForceMode.Impulse);
+                    //Vector3 direction = new Vector3((pota.position.x - transform.position.x), (pota.position.y - transform.position.y)*1.5f, (pota.position.z - transform.position.z));
+                    //directSpeed = direction.magnitude/4;
+                    //Debug.Log("DIRECTION : " + direction + " SPEED : " + directSpeed);
+                    //rb.AddForce(direction * directSpeed, ForceMode.Impulse);
                 }
             }
         }
@@ -65,10 +89,6 @@ public class BallController : MonoBehaviour
                 if (transform.position.y < 0.51f)
                 {
                     rb.velocity = new Vector3(0, rb.velocity.y, 0);
-                }
-                else
-                {
-                    rb.AddForceAtPosition(new Vector3(0, -rb.velocity.y, 0), new Vector3(transform.position.x, 0.5f, transform.position.z), ForceMode.Impulse);
                 }
             }
             else
@@ -103,6 +123,12 @@ public class BallController : MonoBehaviour
         if (collision.collider.tag == "Ground")
         {
             isGrounded = true;
+            movingUp = true;
+        }
+        else
+        {
+            isGrounded = false;
+            movingUp = false;
         }
     }
 }
