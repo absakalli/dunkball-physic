@@ -21,9 +21,6 @@ public class BallController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Vector3 lookattarget = pota.position;
-        lookattarget.y = 0;
-        transform.LookAt(lookattarget);
         if(movingUp && transform.position.y < 0.51f)
         {
             float diff = 0.51f - transform.position.y;
@@ -50,11 +47,7 @@ public class BallController : MonoBehaviour
             lastPos = Input.mousePosition;
             movePos = lastPos - firstPos;
             movePos.Normalize();
-            Vector3 targetVector = transform.right * movePos.x + transform.forward * movePos.y;
-            targetVector.y = 0;
-            Debug.Log(targetVector);
-            rb.AddForce(targetVector * moveSpeed);
-            //rb.AddForce(new Vector3(movePos.x, 0, movePos.y) * moveSpeed);
+            rb.AddForce(new Vector3(movePos.x, 0, movePos.y) * moveSpeed);
         }
 
         else if (Input.GetMouseButtonUp(0) && movePos.y > 0 && time < 0.6f)
