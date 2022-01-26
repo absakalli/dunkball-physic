@@ -9,16 +9,16 @@ public class BallController : MonoBehaviour
     private Vector3 firstPos, lastPos, movePos;
     private bool isSafe, isGrounded, movingUp;
     private float time;
-    public float throwSpeed, directSpeed;
+    public float throwSpeed;
     public float moveSpeed, upSpeed;
 
-    public float dikeyAci;
-    public float yatayAci;
-    public float distance;
-    public float xzDistance;
-    public float yDistance;
-    public float xDistance;
-    public float zDistance;
+    private float dikeyAci;
+    private float yatayAci;
+    private float distance;
+    private float xzDistance;
+    private float yDistance;
+    private float xDistance;
+    private float zDistance;
 
     private void Start()
     {
@@ -29,16 +29,16 @@ public class BallController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        //if (movingUp && transform.position.y < 0.51f)
-        //{
-        //    float diff = 0.51f - transform.position.y;
-        //    //float speedDiff=rb.velocity.magnitude
-        //    rb.AddForce(Vector3.up * upSpeed * diff, ForceMode.Force);
-        //}
-        //if (transform.position.y >= 0.51f)
-        //{
-        //    movingUp = false;
-        //}
+        if (movingUp && transform.position.y < 0.51f)
+        {
+            float diff = 0.51f - transform.position.y;
+            rb.AddForce(Vector3.up * upSpeed * diff, ForceMode.Force);
+        }
+
+        if (transform.position.y >= 0.51f)
+        {
+            movingUp = false;
+        }
 
         if (Input.GetMouseButtonDown(0))
         {
@@ -75,52 +75,107 @@ public class BallController : MonoBehaviour
                     dikeyAci = Vector3.Angle(direction, Vector3.forward);
                     yatayAci = Vector3.Angle(direction, Vector3.left);
                     distance = Vector3.Distance(transform.position, pota.position);
-                    Debug.Log("Ilk acilar : " + dikeyAci + " , " + yatayAci);
 
                     if (yatayAci < 90 && dikeyAci < 90)
                     {
-                        xzDistance = Mathf.Abs(distance * Mathf.Sin(dikeyAci));
-                        yDistance = Mathf.Abs(distance * Mathf.Cos(dikeyAci)) + 0.5f;
-                        xDistance = (xzDistance * Mathf.Sin(yatayAci));
-                        zDistance = Mathf.Abs(xzDistance * Mathf.Cos(yatayAci));
+                        xzDistance = Mathf.Abs(distance * Mathf.Cos(dikeyAci));
+                        yDistance = Mathf.Abs(distance * Mathf.Sin(dikeyAci));
+                        xDistance = (xzDistance * Mathf.Cos(yatayAci));
+                        zDistance = Mathf.Abs(xzDistance * Mathf.Sin(yatayAci));
+
+                        if (Mathf.Sign(xDistance) == 1)
+                        {
+                            xDistance = -xDistance;
+                        }
+
+                        Debug.Log("1. IF\nDikey Açý : " + dikeyAci + ",\t Yatay Açý : " + yatayAci + ",\t Uzaklýk : " + distance + ",\t Y Uzaklýk : " + yDistance +
+                       ",\t XZ Uzaklýk : " + xzDistance + ",\t X Uzaklýk : " + xDistance + ",\t Z Uzaklýk : " + zDistance);
                     }
+
                     else if (yatayAci > 90 && dikeyAci < 90)
                     {
                         yatayAci = Vector3.Angle(direction, Vector3.right);
-                        xzDistance = Mathf.Abs(distance * Mathf.Sin(dikeyAci));
-                        yDistance = Mathf.Abs(distance * Mathf.Cos(dikeyAci)) + 0.5f;
-                        xDistance = Mathf.Abs(xzDistance * Mathf.Sin(yatayAci));
-                        zDistance = Mathf.Abs(xzDistance * Mathf.Cos(yatayAci));
+                        xzDistance = Mathf.Abs(distance * Mathf.Cos(dikeyAci));
+                        yDistance = Mathf.Abs(distance * Mathf.Sin(dikeyAci));
+                        xDistance = Mathf.Abs(xzDistance * Mathf.Cos(yatayAci));
+                        zDistance = Mathf.Abs(xzDistance * Mathf.Sin(yatayAci));
+
+                        Debug.Log("2. IF\nDikey Açý : " + dikeyAci + ",\t Yatay Açý : " + yatayAci + ",\t Uzaklýk : " + distance + ",\t Y Uzaklýk : " + yDistance +
+                       ",\t XZ Uzaklýk : " + xzDistance + ",\t X Uzaklýk : " + xDistance + ",\t Z Uzaklýk : " + zDistance);
                     }
+
                     else if (yatayAci > 90 && dikeyAci > 90)
                     {
                         yatayAci = Vector3.Angle(direction, Vector3.right);
                         dikeyAci = Vector3.Angle(direction, Vector3.back);
-                        xzDistance = Mathf.Abs(distance * Mathf.Sin(dikeyAci));
-                        yDistance = Mathf.Abs(distance * Mathf.Cos(dikeyAci)) + 0.5f;
-                        xDistance = Mathf.Abs(xzDistance * Mathf.Sin(yatayAci));
-                        zDistance = (xzDistance * Mathf.Cos(yatayAci));
+                        xzDistance = Mathf.Abs(distance * Mathf.Cos(dikeyAci));
+                        yDistance = Mathf.Abs(distance * Mathf.Sin(dikeyAci));
+                        xDistance = Mathf.Abs(xzDistance * Mathf.Cos(yatayAci));
+                        zDistance = (xzDistance * Mathf.Sin(yatayAci));
+
+                        if (Mathf.Sign(zDistance) == 1)
+                        {
+                            zDistance = -zDistance;
+                        }
+
+                        Debug.Log("3. IF\nDikey Açý : " + dikeyAci + ",\t Yatay Açý : " + yatayAci + ",\t Uzaklýk : " + distance + ",\t Y Uzaklýk : " + yDistance +
+                       ",\t XZ Uzaklýk : " + xzDistance + ",\t X Uzaklýk : " + xDistance + ",\t Z Uzaklýk : " + zDistance);
                     }
+
                     else if (yatayAci < 90 && dikeyAci > 90)
                     {
                         dikeyAci = Vector3.Angle(direction, Vector3.back);
-                        xzDistance = Mathf.Abs(distance * Mathf.Sin(dikeyAci));
-                        yDistance = Mathf.Abs(distance * Mathf.Cos(dikeyAci)) + 0.5f;
-                        xDistance = (xzDistance * Mathf.Sin(yatayAci));
-                        zDistance = (xzDistance * Mathf.Cos(yatayAci));
+                        xzDistance = Mathf.Abs(distance * Mathf.Cos(dikeyAci));
+                        yDistance = Mathf.Abs(distance * Mathf.Sin(dikeyAci));
+                        xDistance = (xzDistance * Mathf.Cos(yatayAci));
+                        zDistance = (xzDistance * Mathf.Sin(yatayAci));
+
+                        if (Mathf.Sign(xDistance) == 1)
+                        {
+                            xDistance = -xDistance;
+                        }
+
+                        if (Mathf.Sign(zDistance) == 1)
+                        {
+                            zDistance = -zDistance;
+                        }
+
+                        Debug.Log("4. IF\nDikey Açý : " + dikeyAci + ",\t Yatay Açý : " + yatayAci + ",\t Uzaklýk : " + distance + ",\t Y Uzaklýk : " + yDistance +
+                       ",\t XZ Uzaklýk : " + xzDistance + ",\t X Uzaklýk : " + xDistance + ",\t Z Uzaklýk : " + zDistance);
                     }
-                    else if (yatayAci == 90)
+
+                    else if (yatayAci == 90 && dikeyAci < 90)
                     {
-                        xzDistance = Mathf.Abs(distance * Mathf.Sin(dikeyAci));
-                        yDistance = Mathf.Abs(distance * Mathf.Cos(dikeyAci)) + 0.5f;
+                        xzDistance = Mathf.Abs(distance * Mathf.Cos(dikeyAci));
+                        yDistance = Mathf.Abs(distance * Mathf.Sin(dikeyAci));
                         xDistance = 0;
                         zDistance = Mathf.Abs(xzDistance * Mathf.Sin(yatayAci));
+
+                        Debug.Log("5. IF\nDikey Açý : " + dikeyAci + ",\t Yatay Açý : " + yatayAci + ",\t Uzaklýk : " + distance + ",\t Y Uzaklýk : " + yDistance +
+                       ",\t XZ Uzaklýk : " + xzDistance + ",\t X Uzaklýk : " + xDistance + ",\t Z Uzaklýk : " + zDistance);
                     }
 
-                    rb.AddForce(new Vector3(xDistance / 2, yDistance * 2, zDistance), ForceMode.Impulse);
+                    else if (yatayAci == 90 && dikeyAci > 90)
+                    {
+                        xzDistance = Mathf.Abs(distance * Mathf.Cos(dikeyAci));
+                        yDistance = Mathf.Abs(distance * Mathf.Sin(dikeyAci));
+                        xDistance = 0;
+                        zDistance = (xzDistance * Mathf.Sin(yatayAci));
 
-                    Debug.Log("Dikey Açý : " + dikeyAci + ",\t Yatay Açý : " + yatayAci + ",\t Uzaklýk : " + distance + ",\t Y Uzaklýk : " + yDistance +
-                        ",\t XZ Uzaklýk : " + xzDistance + ",\t X Uzaklýk : " + xDistance + ",\t Z Uzaklýk : " + zDistance);
+                        if (Mathf.Sign(zDistance) == 1)
+                        {
+                            zDistance = -zDistance;
+                        }
+
+                        Debug.Log("6. IF\nDikey Açý : " + dikeyAci + ",\t Yatay Açý : " + yatayAci + ",\t Uzaklýk : " + distance + ",\t Y Uzaklýk : " + yDistance +
+                       ",\t XZ Uzaklýk : " + xzDistance + ",\t X Uzaklýk : " + xDistance + ",\t Z Uzaklýk : " + zDistance);
+                    }
+                    float flightTime = (yDistance / -Physics.gravity.y) * 2;
+                    float xSpeed = xDistance / flightTime;
+                    float zSpeed = zDistance / flightTime;
+                    Debug.Log("Ucus Suresi : " + flightTime + ",X Speed : " + xSpeed + ",Z Speed : " + zSpeed);
+                    //rb.AddForce(new Vector3(0, yDistance*3, zDistance), ForceMode.Impulse);
+                    rb.velocity = new Vector3(xSpeed, yDistance*4, zSpeed);
                 }
             }
         }
@@ -129,11 +184,11 @@ public class BallController : MonoBehaviour
         {
             if (isGrounded)
             {
-                //distance = 0;
-                //xzDistance = 0;
-                //yDistance = 0;
-                //xDistance = 0;
-                //zDistance = 0;
+                distance = 0;
+                xzDistance = 0;
+                yDistance = 0;
+                xDistance = 0;
+                zDistance = 0;
                 time = 0;
                 firstPos = Vector3.zero;
                 lastPos = Vector3.zero;
@@ -143,21 +198,28 @@ public class BallController : MonoBehaviour
                     rb.velocity = new Vector3(0, rb.velocity.y, 0);
                 }
             }
+
             else if (!isGrounded && !isSafe)
             {
-                //distance = 0;
-                //xzDistance = 0;
-                //yDistance = 0;
-                //xDistance = 0;
-                //zDistance = 0;
+                distance = 0;
+                xzDistance = 0;
+                yDistance = 0;
+                xDistance = 0;
+                zDistance = 0;
                 time = 0;
                 firstPos = Vector3.zero;
                 lastPos = Vector3.zero;
                 movePos = Vector3.zero;
                 rb.velocity = new Vector3(0, rb.velocity.y, rb.velocity.z);
             }
+
             else if (!isGrounded && isSafe)
             {
+                distance = 0;
+                xzDistance = 0;
+                yDistance = 0;
+                xDistance = 0;
+                zDistance = 0;
                 time = 0;
                 firstPos = Vector3.zero;
                 lastPos = Vector3.zero;

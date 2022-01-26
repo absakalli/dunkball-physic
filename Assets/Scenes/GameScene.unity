@@ -148,7 +148,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 75eac2f4e38f723418e14350ae6e2a45, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1
+      value: -4
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 75eac2f4e38f723418e14350ae6e2a45, type: 3}
       propertyPath: m_LocalPosition.y
@@ -156,7 +156,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 75eac2f4e38f723418e14350ae6e2a45, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1
+      value: -5
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 75eac2f4e38f723418e14350ae6e2a45, type: 3}
       propertyPath: m_LocalRotation.w
@@ -264,16 +264,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pota: {fileID: 1099318135}
   throwSpeed: 3
-  directSpeed: 3
   moveSpeed: 3
   upSpeed: 40
-  dikeyAci: 0
-  yatayAci: 0
-  distance: 0
-  xzDistance: 0
-  yDistance: 0
-  xDistance: 0
-  zDistance: 0
 --- !u!135 &649836900
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -281,7 +273,7 @@ SphereCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 649836895}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 5521f490bb840da4c819796803e51efe, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -643,7 +635,7 @@ MeshCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 4
-  m_Convex: 1
+  m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -5214659172218046519, guid: 7818bba7d60c3714f9ec6d98ffacac43, type: 3}
 --- !u!54 &1317453759
