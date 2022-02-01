@@ -67,7 +67,7 @@ public class BallController : MonoBehaviour
                     Vector3 direction = new Vector3(pota.position.x - transform.position.x, pota.position.y - 0, pota.position.z - transform.position.z).normalized;
                     distance = Vector3.Distance(transform.position, pota.position);
                     rb.AddForce(new Vector3(0, 3.5f, 0),ForceMode.Impulse);
-                    rb.velocity = direction*distance*1.35f;
+                    rb.velocity = direction*distance*1.3f;
                 }
             }
         }
