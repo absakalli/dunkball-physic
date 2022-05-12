@@ -7,13 +7,13 @@ public class BallController : MonoBehaviour
 
     private Rigidbody rb;
 
-    public Vector3 firstPos, lastPos, movePos;
+    private Vector3 firstPos, lastPos, movePos;
     private bool isSafe, isGrounded, movingUp;
-    public float time;
+    private float time;
     private float _distance;
-    public bool isMove;
     public float throwSpeed;
     public float moveSpeed, upSpeed;
+    public bool isMove;
 
     private void Start()
     {
@@ -53,7 +53,8 @@ public class BallController : MonoBehaviour
                 lastPos = Input.mousePosition;
                 movePos = lastPos - firstPos;
                 movePos.Normalize();
-                rb.AddForce(new Vector3(movePos.x, 0, movePos.y) * moveSpeed);
+                rb.AddForce(Camera.main.transform.right * movePos.x * moveSpeed);
+                rb.AddForce(Camera.main.transform.forward * movePos.y * moveSpeed);
             }
 
             else if (Input.GetMouseButtonUp(0) && movePos.y > 0 && time < 0.6f)

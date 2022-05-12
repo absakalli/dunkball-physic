@@ -5,7 +5,7 @@ using Cinemachine;
 [SaveDuringPlay]
 [AddComponentMenu("")] // Hide in menu
 
-public class LockCameraZ : CinemachineExtension
+public class CameraController : CinemachineExtension
 {
     [Tooltip("Lock the camera's Z position to this value")]
     public float m_YPosition = 10;

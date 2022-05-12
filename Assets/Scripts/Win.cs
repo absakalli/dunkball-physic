@@ -1,9 +1,8 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class Win : MonoBehaviour
 {
-    [SerializeField] public GameObject konfeti, konfeti2;
+    [SerializeField] public GameObject konfeti, konfeti2, canvas;
     private Transform parent, asagi;
 
     BallController ballController;
@@ -33,7 +32,7 @@ public class Win : MonoBehaviour
             Instantiate(konfeti2, transform.position + new Vector3(0, 0, 1), Quaternion.identity);
             isTrigger = false;
             ballController.isMove = false;
-            SceneManager.LoadScene(0);
+            canvas.SetActive(true);
         }
     }
 }
