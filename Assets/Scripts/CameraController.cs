@@ -1,24 +1,24 @@
-using DG.Tweening;
 using UnityEngine;
+using Cinemachine;
 
-public class CameraController : MonoBehaviour
+[ExecuteInEditMode]
+[SaveDuringPlay]
+[AddComponentMenu("")] // Hide in menu
+
+public class LockCameraZ : CinemachineExtension
 {
-    [SerializeField] public Transform player;
-    [SerializeField] public Transform pota;
+    [Tooltip("Lock the camera's Z position to this value")]
+    public float m_YPosition = 10;
 
-    private Vector3 offset;
-
-    void Start()
+    protected override void PostPipelineStageCallback(
+        CinemachineVirtualCameraBase vcam,
+        CinemachineCore.Stage stage, ref CameraState state, float deltaTime)
     {
-        offset.x = transform.position.x - player.position.x;
-        offset.y = transform.position.y;
-        offset.z = transform.position.z - player.position.z;
-    }
-
-    void LateUpdate()
-    {
-        //transform.LookAt(new Vector3(pota.position.x, transform.position.y, pota.position.z));
-        transform.position = new Vector3(player.position.x + offset.x, offset.y, player.position.z + offset.z);
-        transform.DODynamicLookAt(new Vector3((pota.position.x + player.position.x) / 2, transform.position.y, (pota.position.z + player.position.z) / 2), 0.5f);
+        if (stage == CinemachineCore.Stage.Body)
+        {
+            var pos = state.RawPosition;
+            pos.y = m_YPosition;
+            state.RawPosition = pos;
+        }
     }
 }
